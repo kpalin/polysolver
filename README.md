@@ -1,23 +1,22 @@
 # Singularity Polysolver
 
-This will produce a Singularity image (suitable for running in a cluster environment) using [https://hub.docker.com/r/sachet/polysolver/](https://hub.docker.com/r/sachet/polysolver/). We do this by way of a bootstrap file for the Docker image.
+This will produce a Apptainer image (suitable for running in a cluster environment) using [https://hub.docker.com/r/sachet/polysolver/](https://hub.docker.com/r/sachet/polysolver/). We do this by way of a bootstrap file for the Docker image.
 
 
-## 1. Install Singularity
+## 1. Install Apptainer
 
-Instructions can be found on the [singularity site](https://singularityware.github.io).
+Instructions can be found on the [Apptainer conda site](https://anaconda.org/conda-forge/apptainer) or on [Apptainer site]([https://singularityware.github.io](https://apptainer.org/docs/admin/main/installation.html#install-unprivileged-from-pre-built-binaries)).
 
 
 ## 2. Bootstrap the image
 
 
-    sudo singularity create --size 4000 polysolver.img
-    sudo singularity bootstrap polysolver.img Singularity
+      apptainer build polysolver4.sif Singularity
 
 
 ## 3. Running commands
 
-For each of the following commands, you will want to [mount a local data folder](http://singularity.lbl.gov/docs-mount) to `/data` inside the container, and then provide paths to `/data` to the executable.
+For each of the following commands, you will want to [mount a local data folder](https://apptainer.org/docs/user/main/bind_paths_and_mounts.html) to `/data/input/` and `/data/output` inside the container, and then provide pathss` to the executable.
 
       
 ## Polysolver Documentation
@@ -32,7 +31,7 @@ This software package consists of 3 main tools:
 This tool can be used for HLA typing based on an input exome BAM file and is currently infers infers alleles for the three major MHC class I  (HLA-A, -B, -C).
 
 
-      singularity exec polysolver.img /usr/local/libexec/polysolver/scripts/shell_call_hla_type
+      apptainer run --bind /home/kpalin/software/NeoPredPipe/deps/hla-polysolver/test/:/data/input/:ro --bind /scratch/kpalin/tmp/:/data/output/  polysolver4.sif /data/input/test.bam Unknown 1 hg19 STDFQ 0 testSample
 
 
 #### Input:
